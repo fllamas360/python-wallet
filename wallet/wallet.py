@@ -13,14 +13,17 @@ mnemonic=os.getenv("mnemonic")
  
 # Create a function called `derive_wallets`
 def derive_wallets(coin, mnemonic, numderive):
-    command = f".derive -g --format=json --coin="{coin}" --mnemonic="{mnemonic}" --numderive={numderive}"
+    command = f".derive -g --coin="{coin}" --mnemonic="{mnemonic}" --numderive={numderive} --format=json --cols=path, address, priv_key"
     p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     p_status = p.wait()
     return json.loads(output)
 
 # Create a dictionary object called coins to store the output from `derive_wallets`.
-coins = 
+coins = {
+    ETH: derive_wallets(ETH, mnemonic, numderive),
+    BTCTEST: derive_wallets(BTCTEST, mnemonic, numderive)
+}
 
 # Create a function called `priv_key_to_account` that converts privkey strings to account objects.
 def priv_key_to_account(coin, priv_key):
